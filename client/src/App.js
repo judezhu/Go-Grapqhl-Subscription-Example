@@ -1,5 +1,4 @@
 import React from 'react';
-import ReactPlayer from 'react-player';
 import { GraphQLWsLink } from '@apollo/client/link/subscriptions';
 import { createClient } from 'graphql-ws';
 import { ApolloClient, InMemoryCache, gql } from '@apollo/client';
@@ -9,12 +8,10 @@ const App = () => {
     url: 'ws://api.staging.magic.dapperlabs.com/consumer/graphql',
     // url: 'ws://localhost:9001/graphql',
     connectionParams: {
-      "x-id-token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkFyR215S3VxemotZHN1Qmw4eXRtVSJ9.eyJodHRwczovL3N0YWdpbmcuYWNjb3VudHMubWVldGRhcHBlci5jb20vaWRlbnRpdHlfdmVyaWZpZWQiOnRydWUsImh0dHBzOi8vc3RhZ2luZy5hY2NvdW50cy5tZWV0ZGFwcGVyLmNvbS9mbG93X2FjY291bnRfaWQiOiI5MmU5MjY4NGY2NDU0YjAwIiwiaHR0cHM6Ly9zdGFnaW5nLmFjY291bnRzLm1lZXRkYXBwZXIuY29tL2lzTmV3QWNjb3VudCI6ZmFsc2UsImh0dHBzOi8vc3RhZ2luZy5hY2NvdW50cy5tZWV0ZGFwcGVyLmNvbS9pcCI6IjM1LjE5Ny4xMDIuMTgyIiwiaHR0cHM6Ly9zdGFnaW5nLmFjY291bnRzLm1lZXRkYXBwZXIuY29tL2lzUmVhZE9ubHkiOmZhbHNlLCJuaWNrbmFtZSI6ImNvcmV5Lmh1bWVzdG9uIiwicHJlZmVycmVkX3VzZXJuYW1lIjoiaW1wcmVzc2l2ZV9jZWxlcnk0NTcxIiwibmFtZSI6ImNvcmV5Lmh1bWVzdG9uQGRhcHBlcmxhYnMuY29tIiwicGljdHVyZSI6Imh0dHBzOi8vc3RvcmFnZS5nb29nbGVhcGlzLmNvbS9kYXBwZXItcHJvZmlsZS1pY29ucy9hdmF0YXItZGVmYXVsdC5wbmciLCJ1cGRhdGVkX2F0IjoiMjAyMy0wNS0wOFQxODowNzozMC4wNjlaIiwiZW1haWwiOiJjb3JleS5odW1lc3RvbkBkYXBwZXJsYWJzLmNvbSIsImVtYWlsX3ZlcmlmaWVkIjpmYWxzZSwiaXNzIjoiaHR0cHM6Ly9hdXRoLnN0YWdpbmcubWVldGRhcHBlci5jb20vIiwiYXVkIjoiSm4yUUF6UkdKRkZPVVdYMUQ1R1hBMVE1a1g2TTRuRmQiLCJpYXQiOjE2ODQ1Mjg4OTIsImV4cCI6MTY4NDUyOTc5Miwic3ViIjoiYXV0aDB8NjFlNmUwY2JkOTlmZmU2MTMyN2I1NTM0In0.h839VkZGMPiuNdNBWQYNp-KhS00sWnfN_yUWbpSh-h6qmqAFXS5G9iU2VAvAdi-0rxOgjX9XrNG-PVJfprQ0oiIKIIX2hRiCxgtnUnl-B4Gg3YTBhXNis2gU6d-vjJTugyODNss8WS-M-Mh40eJDrTaWk_Xw1S3OC-A6uhJRlmR8E8v8rN_ywN7e8wlc2sZXn8fhXwnhmI26VZ2RmhlXY_FdohU04L5_ccGPSlZwHgv2Tp_J3WoUvrPhReZion_2BKA9B7sC7vi4GxfojVol-1t_2lRpb4jyU1CmoC--pJHhmhXPrMSSD8GX2iO6dp1avKMTAV-VQM3-HQ5kzvj4Gg"
-    },
+      "x-id-token":"eyJhbGciOiJSUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IkFyR215S3VxemotZHN1Qmw4eXRtVSJ9.eyJwcmVmZXJyZWRfdXNlcm5hbWUiOiJqdWRlemh1MSIsInBpY3R1cmUiOiJodHRwczovL3N0b3JhZ2UuZ29vZ2xlYXBpcy5jb20vZGFwcGVyLXByb2ZpbGUtaWNvbnMvYXZhdGFyLWFic3RyYWN0LTIucG5nIiwiaHR0cHM6Ly9zdGFnaW5nLmFjY291bnRzLm1lZXRkYXBwZXIuY29tL2lkZW50aXR5X3ZlcmlmaWVkIjp0cnVlLCJodHRwczovL3N0YWdpbmcuYWNjb3VudHMubWVldGRhcHBlci5jb20vaXNOZXdBY2NvdW50IjpmYWxzZSwiaHR0cHM6Ly9zdGFnaW5nLmFjY291bnRzLm1lZXRkYXBwZXIuY29tL2lwIjoiMTMxLjIyNi40Ny42NiIsImh0dHBzOi8vc3RhZ2luZy5hY2NvdW50cy5tZWV0ZGFwcGVyLmNvbS9pc1JlYWRPbmx5IjpmYWxzZSwibmlja25hbWUiOiJqdWRlLnpodSsxIiwibmFtZSI6Imp1ZGUuemh1KzFAZGFwcGVybGFicy5jb20iLCJ1cGRhdGVkX2F0IjoiMjAyMy0wNS0yOVQxNTo1MzoxMC43NDZaIiwiZW1haWwiOiJqdWRlLnpodSsxQGRhcHBlcmxhYnMuY29tIiwiZW1haWxfdmVyaWZpZWQiOnRydWUsImlzcyI6Imh0dHBzOi8vYXV0aC5zdGFnaW5nLm1lZXRkYXBwZXIuY29tLyIsImF1ZCI6IkpuMlFBelJHSkZGT1VXWDFENUdYQTFRNWtYNk00bkZkIiwiaWF0IjoxNjg1Mzc1NjEzLCJleHAiOjE2ODUzNzY1MTMsInN1YiI6ImF1dGgwfDVlYTA3MmRlODQ5MTZkMGNhY2EwMTY0YyIsImFjciI6Imh0dHA6Ly9zY2hlbWFzLm9wZW5pZC5uZXQvcGFwZS9wb2xpY2llcy8yMDA3LzA2L211bHRpLWZhY3RvciIsImFtciI6WyJtZmEiXSwic2lkIjoiNmJDdFpxc3NmcHBGN3BvbEtSSEhWbFFjb0RUbnc1XzkiLCJub25jZSI6Im9VMjE3OHZDQ1J2ZHlIbWQyeUR4anVvOUItQVZFX21iNnhkWmEycFU0ZlUifQ.Mv0yYlak2YNG2GZLB-iG693UkN2Sgh1m8-ISjfeOjOmUiUGO_evO3WDQBX_DX8fjYMjzChazhrGBif3acYJo6KkhD7V3eh-OTd7Cci1kTabQdAnEiEKzrT09C-LdYR4lAPpuXCj4U0Gj_DuVB6Qy-Ls4peXD9Oq6rcFo1cPGRhMml40bqYqfaEK1NILuGg-2kJygT8qsXQZu6rysyjkT7KClTsqgKJeEjQ-MXNuzna-NLo2y1_W369QT-Ua57DQEZcgXPq3XEs8oiuO84fnet_dSc3FP-nz-vNyBrFECW66xlovo0lhxRci5wSxzOpHY1sox4SzPnT8MM_uaGpDS9Q"}
   }));
 
   const client = new ApolloClient({
-    // uri: "http://localhost:8000/graphql",
     link: wsLink,
     cache: new InMemoryCache()
   });
@@ -28,7 +25,6 @@ const App = () => {
   }
 }
 `;
-
 
 
 // Subscribe to the new message subscription
@@ -50,17 +46,9 @@ client.wsClient.onOpen(() => {
   console.log('WebSocket connection established.');
 });
 
-// subscription.onClose(() => {
-//   console.log('WebSocket connection closed.');
-// });
   return (
     <div>
-      <ReactPlayer
-        url='http://localhost:8080/videos/singler.mp4'
-        controls={true}
-        width='100%'
-        height='100%'
-      />
+      <p>Welcome to Subscription Example!</p>
     </div>
   );
 };
